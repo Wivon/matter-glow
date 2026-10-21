@@ -1,0 +1,4 @@
+{
+  "ceiling": { "nodeId": "1", "endpoint": 1, "placement": "ceiling, middle of the room" },
+  "wall": { "nodeId": "2", "endpoint": 1, "placement": "wall-mounted" }
+}

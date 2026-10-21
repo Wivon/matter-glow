@@ -1,0 +1,9 @@
+node_modules/
+build/
+app/.build/
+.swiftpm/
+.DS_Store
+# Pairing data lives in ~/Library/Application Support/Matter Glow, never in the repo.
+# Older checkouts kept it here; the Matter controller keys must stay private.
+.matter-storage/
+lamps.json

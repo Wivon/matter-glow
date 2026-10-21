@@ -72,7 +72,7 @@ Check they answer with `node status.js`, and optionally measure them with
 ./scripts/build-app.sh --install
 ```
 
-This builds `Matter Glow.app` with the engine bundled inside, signs it (with your
+This builds `Matter Glow.app` with the engine and the Liquid Glass icon bundled inside, signs it (with your
 *Apple Development* certificate if you have one, so permissions survive rebuilds),
 copies it to `/Applications` and launches it. Without `--install` it only builds
 into `build/`.
@@ -163,6 +163,7 @@ refuse to run while it's open).
 
 ```
 app/          Swift package for the menu bar app
+  AppIcon.icon          app icon (Icon Composer), compiled by build-app.sh
   Sources/MatterGlow/
     AppModel.swift      state, settings, wiring
     MenuView.swift      the menu (Liquid Glass)

@@ -24,6 +24,16 @@ rsync -a --exclude 'dist/cjs' --exclude '/*/src' --exclude '/@*/*/src' \
     --exclude '*.map' --exclude '*.d.ts' --exclude '*.d.cts' --exclude '*.d.mts' \
     "$root/node_modules" "$app/Contents/Resources/engine/"
 
+# App icon: app/AppIcon.icon, made with Icon Composer. actool compiles it into
+# Assets.car (the Liquid Glass renderings) plus an .icns fallback.
+icon_keys=""
+if [ -d "$root/app/AppIcon.icon" ]; then
+    xcrun actool "$root/app/AppIcon.icon" --compile "$app/Contents/Resources" --platform macosx \
+        --minimum-deployment-target 27.0 --app-icon AppIcon \
+        --output-partial-info-plist "$root/build/icon-info.plist" > /dev/null
+    icon_keys="<key>CFBundleIconFile</key><string>AppIcon</string><key>CFBundleIconName</key><string>AppIcon</string>"
+fi
+
 cat > "$app/Contents/Info.plist" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -48,6 +58,7 @@ cat > "$app/Contents/Info.plist" <<EOF
     <key>NSBonjourServices</key>
     <array><string>_matter._tcp</string><string>_matterc._udp</string></array>
     <key>NodePath</key><string>$node</string>
+    $icon_keys
 </dict>
 </plist>
 EOF
@@ -65,6 +76,7 @@ if [ "${1:-}" = "--install" ]; then
     fi
     rm -rf "/Applications/Matter Glow.app"
     ditto "$app" "/Applications/Matter Glow.app"
+    touch "/Applications/Matter Glow.app" # so Finder picks up a new icon
     open "/Applications/Matter Glow.app"
     echo "Installed /Applications/Matter Glow.app"
 fi
